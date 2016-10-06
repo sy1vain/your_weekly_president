@@ -1,4 +1,6 @@
 "use strict";
 
 console.log('** YOUR WEEKLY PRESIDENT**');
-require('./src');
+const VideoPlayer = require('./VideoPlayer');
+
+var videoPlayer = new VideoPlayer();
