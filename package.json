@@ -1,0 +1,19 @@
+{
+  "name": "your_weekly_president",
+  "version": "1.0.0",
+  "description": "## Install instructions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.1",
+    "fluent-ffmpeg": "^2.1.0",
+    "lodash": "^4.16.3",
+    "node-powermate": "0.0.5",
+    "omx-interface": "^1.1.6",
+    "osc": "^2.1.0"
+  }
+}
