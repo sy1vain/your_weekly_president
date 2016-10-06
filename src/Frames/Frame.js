@@ -1,5 +1,15 @@
 "use strict";
 const _ = require('lodash');
+const ffmpeg = require('fluent-ffmpeg');
+const os = require('os');
+const path = require('path');
+const fs = require('fs');
+const Broadcaster = require('../Broadcaster');
+
+if(os.platform()=='linux'){
+  console.log('ffmpeg => /usr/bin/avconv');
+  ffmpeg.setFfmpegPath('/usr/bin/avconv');
+}
 
 class Frame {
 
@@ -7,6 +17,43 @@ class Frame {
     time = time || 0;
     this.time = timeToSeconds(time);
     this.timecode = timeToTimecode(time);
+    this._filepath = null;
+  }
+
+  set filepath(filepath){
+    this._filepath = filepath;
+    Broadcaster.send('/frame', this.timecode, this.filepath);
+  }
+
+  get filepath(){
+    return this._filepath;
+  }
+
+  createFrame(options = {
+    moviePath: null
+  }, next){
+    options.width = options.width || 1920;
+    options.height = options.height || 1080;
+
+    let filepath = path.join(os.tmpdir(), 'ywp-' + this.timecode.replace(/:/g, '_') + '_' + options.width + 'x' + options.height + '.bmp');
+
+    fs.exists(filepath, (exists)=>{
+      if(exists){
+        this.filepath = filepath;
+        return next();
+      }
+
+      console.log(`converting ${this.timecode} to ${filepath}`);
+
+      let command = ffmpeg(options.moviePath).seekInput(this.timecode).outputOptions('-vframes 1');
+      command.size(options.width+'x'+options.height);
+      command.output(filepath).on('end', ()=>{
+        this.filepath = filepath;
+        next();
+      }).on('error', next);
+      command.run();
+    });
+
   }
 
 }

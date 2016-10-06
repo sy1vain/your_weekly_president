@@ -12,6 +12,10 @@ frames.loadMarkers(path.join(__dirname, '..', '..', 'markers.txt'), function(err
     return console.log('no frames found')
   }
 
+  frames.createFiles(path.join(__dirname, '..', '..', 'ywp.mp4'), (err)=>{
+    if(err){ return console.log(err); }
 
+    Broadcaster.send('/ready');
+  })
 
 });

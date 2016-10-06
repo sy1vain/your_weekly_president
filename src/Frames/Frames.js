@@ -1,6 +1,7 @@
 "use strict";
 const Frame = require('./Frame');
 const fs = require('fs');
+const async = require('async');
 
 class Frames {
 
@@ -26,6 +27,16 @@ class Frames {
 
   get frames(){
     return this._frames;
+  }
+
+  createFiles(moviePath, cb){
+    async.eachSeries(this.frames, (frame, next)=>{
+      frame.createFrame({
+        moviePath,
+        width: 1920/2,
+        height: 1080/2
+      }, next);
+    }, cb);
   }
 }
 
