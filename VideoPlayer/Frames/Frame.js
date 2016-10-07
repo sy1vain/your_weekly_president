@@ -35,7 +35,7 @@ class Frame {
     options.width = options.width || 1920;
     options.height = options.height || 1080;
 
-    let filepath = path.join(os.tmpdir(), 'ywp-' + this.timecode.replace(/:/g, '_') + '_' + options.width + 'x' + options.height + '.bmp');
+    let filepath = path.join(os.tmpdir(), 'ywp-' + this.timecode.replace(/:/g, '_') + '_' + options.width + 'x' + options.height + '.jpg');
 
     fs.exists(filepath, (exists)=>{
       if(exists){
@@ -45,7 +45,7 @@ class Frame {
 
       console.log(`converting ${this.timecode} to ${filepath}`);
 
-      let command = ffmpeg(options.moviePath).seekInput(this.timecode).outputOptions('-vframes 1');
+      let command = ffmpeg(options.moviePath).seekInput(this.timecode).outputOptions(['-vframes 1', '-qscale:v 2']);
       command.size(options.width+'x'+options.height);
       command.output(filepath).on('end', ()=>{
         this.filepath = filepath;
