@@ -4,7 +4,8 @@
   "description": "## Install instructions",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "electron": "npm run electron-rebuild && electron .",
+    "electron-rebuild": "electron-rebuild --pre-gyp-fix"
   },
   "author": "",
   "license": "ISC",
@@ -15,5 +16,9 @@
     "node-powermate": "0.0.5",
     "omx-interface": "^1.1.6",
     "osc": "^2.1.0"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^1.4.3",
+    "electron-rebuild": "^1.2.1"
   }
 }
