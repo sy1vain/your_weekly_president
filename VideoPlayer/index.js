@@ -19,13 +19,13 @@ class VideoPlayer {
     let frames = new Frames();
     this.frames = frames;
 
-    frames.loadMarkers(path.join(__dirname, '..', '..', 'markers.txt'), function(err){
+    frames.loadMarkers(path.join(__dirname, '..', 'tmp', 'markers.txt'), function(err){
       if(err){
         console.log('no frames found');
         return cb && cb();
       }
 
-      frames.createFiles(path.join(__dirname, '..', '..', 'ywp.mp4'), cb);
+      frames.createFiles(path.join(__dirname, '..', 'tmp', 'ywp.mp4'), cb);
 
     });
 
