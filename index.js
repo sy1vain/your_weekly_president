@@ -14,14 +14,16 @@ try{
 
     win.webContents.openDevTools()
 
+    win.webContents.on('dom-ready', ()=>{
+        let videoPlayer = new VideoPlayer();
+    })
+
   });
 
   app.on('window-all-closed', ()=>{
     app.quit();
   });
 
-  //open window etc
-  let videoPlayer = new VideoPlayer();
 }catch(e){
   let videoPlayer = new VideoPlayer();
 }

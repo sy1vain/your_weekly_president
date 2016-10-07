@@ -7,15 +7,21 @@ body {
   background-color: #fff;
 }
 
-videoframe {
+images {
   display: block;
   position: absolute;
   left: 0;
   top: 0;
   width: 100vw;
   height: 100vh;
+}
 
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
+images img {
+  width: 1920px;
+  height: 1080px;
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+
 }
