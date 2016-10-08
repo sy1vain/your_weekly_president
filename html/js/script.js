@@ -13,6 +13,7 @@ ipcRenderer.on('/start', ()=>{
 });
 
 ipcRenderer.on('/frame', (sender, id, file)=>{
+  if(!id || !file) return; //ignore invalids
   let elem = document.createElement('img');
   elem.setAttribute('data-id', id);
   elem.setAttribute('src', `file://${file}`);
