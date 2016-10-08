@@ -17,9 +17,8 @@ class VideoPlayer {
       if(err){ return console.log('unable to prepare frames'); }
       Broadcaster.send('/ready');
       this.frameController.setFrames(this.frames.frames);
+      this.player.play();
     });
-
-    this.player.play();
 
     setInterval(()=>{
       // console.log(`time: ${this.player.time}`);
