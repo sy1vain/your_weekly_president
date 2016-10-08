@@ -13,8 +13,10 @@ class VideoPlayer {
       this.frameController.setFrames(this.frames.frames);
     });
 
+    let start = Date.now();
+
     setInterval(()=>{
-      this.frameController.next();
+      this.frameController.updateTime( (Date.now()-start)/1000 );
     }, 100);
   }
 

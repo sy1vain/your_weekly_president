@@ -70,6 +70,26 @@ class FrameController {
 
     this.current = this.current.prev;
   }
+
+  updateTime(time){
+    if(!this.current) return this.next();
+
+    while(timeDiff(time, this.current) > timeDiff(time, this.current.next)){
+      console.log(time);
+      this.next();
+    }
+
+    while(timeDiff(time, this.current) > timeDiff(time, this.current.prev)){
+      console.log(time);
+      this.prev();
+    }
+
+  }
 }
 
 module.exports = FrameController;
+
+function timeDiff(time,frame){
+  if(!frame) return Number.MAX_SAFE_INTEGER;
+  return Math.abs(time - frame.time);
+}
