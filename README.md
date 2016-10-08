@@ -7,4 +7,4 @@
 * Install dependencies
   * `curl -sL https://deb.nodesource.com/setup_6.x | sudo bash -`
   * `yes | sudo apt-get upgrade`
-  * `yes | sudo apt-get install git upstart libav-tools omxplayer nodejs libusb-1.0-0.dev`
+  * `yes | sudo apt-get install git upstart libav-tools omxplayer nodejs libusb-1.0-0.dev xinit libgtk2.0-0 libxss1 libgconf-2-4 libnss3`
