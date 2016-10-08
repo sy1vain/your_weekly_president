@@ -2,11 +2,18 @@
 const Frame = require('./Frame');
 const fs = require('fs');
 const async = require('async');
+const Broadcaster = require('../Broadcaster');
 
 class Frames {
 
   constructor(){
       this._frames = [];
+
+      Broadcaster.on('/requestframes', ()=>{
+        this._frames.forEach((frame)=>{
+          frame.broadcast();
+        });
+      });
   }
 
   loadMarkers(path, cb){

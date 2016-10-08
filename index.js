@@ -3,6 +3,7 @@
 console.log('** YOUR WEEKLY PRESIDENT**');
 
 const VideoPlayer = require('./VideoPlayer');
+let videoPlayer = new VideoPlayer();
 
 try{
   const {app, BrowserWindow} = require('electron')
@@ -13,17 +14,11 @@ try{
     win.loadURL(`file://${__dirname}/html/index.html`);
 
     win.webContents.openDevTools()
-
-    win.webContents.on('dom-ready', ()=>{
-        let videoPlayer = new VideoPlayer();
-    })
-
   });
 
   app.on('window-all-closed', ()=>{
     app.quit();
   });
-
 }catch(e){
-  let videoPlayer = new VideoPlayer();
+  console.log('no electron detected, runnign nod version')
 }

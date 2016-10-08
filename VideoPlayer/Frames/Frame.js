@@ -22,11 +22,15 @@ class Frame {
 
   set filepath(filepath){
     this._filepath = filepath;
-    Broadcaster.send('/frame', this.timecode, this.filepath);
+    this.broadcast();
   }
 
   get filepath(){
     return this._filepath;
+  }
+
+  broadcast(){
+    Broadcaster.send('/frame', this.timecode, this.filepath);
   }
 
   createFrame(options = {

@@ -36,3 +36,5 @@ function showRandom(){
 
   current = img;
 }
+
+ipcRenderer.send('/requestframes');
