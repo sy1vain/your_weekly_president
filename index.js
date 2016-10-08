@@ -13,7 +13,7 @@ try{
     win.setMenu(null);
     win.loadURL(`file://${__dirname}/html/index.html`);
 
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools();
   });
 
   app.on('window-all-closed', ()=>{
