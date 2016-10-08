@@ -21,21 +21,31 @@ ipcRenderer.on('/frame', (sender, id, file)=>{
   let images = document.querySelector('images');
 
   images.appendChild(elem);
+  if(frames.has(id)) frames.get(id).remove();
+
+  frames.set(id, elem);
+
+  document.querySelector('counter').innerHTML = frames.size;
 });
 
-ipcRenderer.on('/ready', (sender)=>{
-  setInterval(showRandom, 100);
+ipcRenderer.on('/show', (sender, id)=>{
+  if(!frames.has(id)){
+    ipcRenderer.send('/requestframes');
+    return;
+  }
+
+  var elem = frames.get(id);
+  elem.classList.toggle('show', true);
+  if(current) current.classList.toggle('show', false);
+  current = elem;
 });
 
-function showRandom(){
-  var images = document.querySelectorAll('img');
-  var img = images[Math.floor(images.length * Math.random())];
+ipcRenderer.on('/hide', (sender)=>{
+  document.querySelectorAll('.show').forEach( (el)=>{
+    el.classList.toggle('show', false);
+  });
+  current = null;
+});
 
-  img.style.display = 'block';
-
-  if(current && current!=img) current.style.display = null;
-
-  current = img;
-}
 
 ipcRenderer.send('/requestframes');

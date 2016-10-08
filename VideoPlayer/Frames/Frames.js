@@ -28,10 +28,6 @@ class Frames {
         this._frames.push(frame);
       });
 
-      this._frames.sort( (a,b)=>{
-        return a.time < b.time;
-      } );
-
       return cb && cb(null, this.frames);
     });
   }
