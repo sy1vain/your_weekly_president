@@ -1,9 +1,7 @@
 "use strict";
-const  {Frames} = require('./Frames');
+const  {Frames, FrameController} = require('./Frames');
 const Broadcaster = require('./Broadcaster');
 const path = require('path');
-
-const FrameController = require('./FrameController');
 
 class VideoPlayer {
 

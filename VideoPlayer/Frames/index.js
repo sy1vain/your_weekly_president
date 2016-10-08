@@ -1,5 +1,6 @@
 "use strict";
 module.exports = {
   Frame: require('./Frame'),
-  Frames: require('./Frames')
+  Frames: require('./Frames'),
+  FrameController: require('./FrameController')
 }
