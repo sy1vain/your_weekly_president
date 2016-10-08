@@ -59,6 +59,7 @@ class FrameController {
     }
 
     this.current = this.current.next;
+    return this.current;
   }
 
   prev(){
@@ -69,6 +70,7 @@ class FrameController {
     }
 
     this.current = this.current.prev;
+    return this.current;
   }
 
   updateTime(time){
