@@ -20,7 +20,7 @@ class Broadcaster {
     this.emitter = new EventEmitter();
 
     this.udpPort.on('message', (message)=>{
-      this.emitter.emit(message.address, ...args);
+      this.emitter.emit(message.address, ...message.args);
     });
   }
 
