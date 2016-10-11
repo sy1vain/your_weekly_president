@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "FrameSurface.h"
+
 typedef std::shared_ptr<class Frame> FrameRef;
 
 class Frame {
@@ -16,5 +18,7 @@ protected:
 
   std::string _id;
   std::string _filepath;
+
+  FrameSurfaceWRef frameSurface;
 
 };
