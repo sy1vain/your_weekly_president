@@ -19,12 +19,11 @@ class Frames {
   loadMarkers(path, cb){
     fs.readFile(path, 'utf8', (err, data) => {
       if(err) return cb && cb(`unable to load markers: ${path}`);
-      data = data.trim();
 
-      var lines = data.split('\n');
-      lines.forEach((line)=>{
-        line = line.trim();
-        var frame = new Frame(line);
+      var timecodes = data.match(/\d\d:\d\d:\d\d/g);
+
+      timecodes.forEach((timecode)=>{
+        var frame = new Frame(timecode);
         this._frames.push(frame);
       });
 
