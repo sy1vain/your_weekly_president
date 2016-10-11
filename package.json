@@ -14,7 +14,7 @@
     "fluent-ffmpeg": "^2.1.0",
     "lodash": "^4.16.3",
     "node-powermate": "0.0.5",
-    "omx-interface": "^1.1.6",
+    "omxplayer": "github:sy1vain/omxplayer",
     "osc": "^2.1.0"
   },
   "devDependencies": {
