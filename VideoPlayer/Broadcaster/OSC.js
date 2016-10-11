@@ -1,5 +1,6 @@
 "use strict";
 const osc = require('osc');
+const EventEmitter = require('events');
 
 const remotePort = 8780;
 const remoteAddress = '127.0.0.1';
@@ -15,6 +16,12 @@ class Broadcaster {
     });
     udpPort.open();
     this.udpPort = udpPort;
+
+    this.emitter = new EventEmitter();
+
+    this.udpPort.on('message', (message)=>{
+      this.emitter.emit(message.address, ...args);
+    });
   }
 
   send(address, ...args){
@@ -25,9 +32,7 @@ class Broadcaster {
   }
 
   on(channel, cb){
-    ipcMain.on(channel, (evt, ...args)=>{
-      cb && cb(...args);
-    });
+    this.emitter.on(channel, cb);
   }
 
 }
