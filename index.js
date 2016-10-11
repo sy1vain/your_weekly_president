@@ -2,11 +2,13 @@
 
 console.log('** YOUR WEEKLY PRESIDENT**');
 
+const electron = require('./utils/isElectron');
+
 const VideoPlayer = require('./VideoPlayer');
 let videoPlayer = new VideoPlayer();
 
-try{
-  const {app, BrowserWindow} = require('electron')
+if(electron){
+  const {app, BrowserWindow} = electron;
 
   app.on('ready', ()=>{
     let win = new BrowserWindow({width: 1920, height: 1080, useContentSize: true});
@@ -19,6 +21,4 @@ try{
   app.on('window-all-closed', ()=>{
     app.quit();
   });
-}catch(e){
-  console.log('no electron detected, runnign nod version')
 }

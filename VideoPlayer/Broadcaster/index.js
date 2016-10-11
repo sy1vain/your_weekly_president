@@ -1,8 +1,7 @@
 "use strict";
 
-try{
-  const electron = require('electron');
+if(require('../../utils/isElectron')){
   module.exports = new (require('./IPC'))();
-}catch(e){
+}else{
   module.exports = new (require('./OSC'))();
 }
