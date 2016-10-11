@@ -30,5 +30,11 @@ void FramePlayer::parseOSCMessage(ofxOscMessage &msg){
     if(msg.getArgType(0)!=OFXOSC_TYPE_STRING) return;
     if(msg.getArgType(1)!=OFXOSC_TYPE_STRING) return;
     frames.addFrame(msg.getArgAsString(0), msg.getArgAsString(1));
+    return;
+  }
+
+  if(msg.getAddress()=="/start"){
+    frames.clear();
+    return;
   }
 }
