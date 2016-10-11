@@ -1,0 +1,3 @@
+[submodule "FramePlayer/libs/openFrameworks"]
+	path = FramePlayer/libs/openFrameworks
+	url = https://github.com/openframeworks/openFrameworks.git
