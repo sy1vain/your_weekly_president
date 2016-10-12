@@ -18,7 +18,7 @@ void FrameLoader::update(){
 
   bool hasLoaded = false;
 
-  while(next && prev && textures.size() < 5){
+  while(next && prev && textures.size() < LOAD_TEXTURES){
     FrameTextureRef frameTexture;
 
     frameTexture = next->frameTexture();
@@ -77,7 +77,7 @@ void FrameLoader::threadedFunction(){
     //while we have a prev/next and room
     //we add a surface and load it if needed
     //and we haven;t loaded any yet
-    while(next && prev && surfaces.size() < 10){
+    while(next && prev && surfaces.size() < LOAD_SURFACES){
       FrameSurfaceRef frameSurface;
 
       frameSurface = next->frameSurface();
