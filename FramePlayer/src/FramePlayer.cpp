@@ -30,7 +30,19 @@ void FramePlayer::draw(){
     auto frameTexture = currentFrame->frameTexture();
     if(frameTexture && frameTexture->isUploaded()){
       auto texture = frameTexture->getTexture();
-      if(texture) texture->draw(0,0);
+      if(texture){
+        ofPushMatrix();
+        float w = ofGetWidth();
+        float h = ofGetHeight();
+        float tw = texture->getWidth();
+        float th = texture->getHeight();
+        float s = min(w/tw, h/th);
+        ofTranslate(w/2, h/2);
+        ofScale(s,s);
+        ofTranslate(tw/-2, th/-2);
+        texture->draw(0,0);
+        ofPopMatrix();
+      }
     }
   }
 }
