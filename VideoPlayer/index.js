@@ -57,7 +57,6 @@ class VideoPlayer {
   }
 
   next(){
-    console.log('next!');
     let frame = this.frameController.next();
     if(!frame) return;
     console.log(`should seek to ${frame.time}`);
@@ -65,7 +64,10 @@ class VideoPlayer {
   }
 
   prev(){
-
+    let frame = this.frameController.prev();
+    if(!frame) return;
+    console.log(`should seek to ${frame.time}`);
+    this.player.seekTo(frame.time);
   }
 
 }
