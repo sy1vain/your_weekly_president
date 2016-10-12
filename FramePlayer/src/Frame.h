@@ -14,6 +14,8 @@ public:
     return std::shared_ptr<class Frame>(new Frame(id, filepath));
   }
 
+  std::string& id();
+
   void next(FrameWRef frame){
     _next = frame;
   }
@@ -26,15 +28,25 @@ public:
 
   FrameRef prev();
 
-  std::string& id();
+  void frameSurface(FrameSurfaceRef frameSurface){
+    _frameSurface = frameSurface;
+  }
+
+  FrameSurfaceRef frameSurface();
+
+  void frameTexture(FrameTextureRef frameTexture){
+    _frameTexture = frameTexture;
+  }
+
+  FrameTextureRef frameTexture();
 protected:
   Frame(std::string id, std::string filepath);
 
   std::string _id;
   std::string _filepath;
 
-  FrameSurfaceWRef frameSurface;
-  FrameTextureWRef frameTexture;
+  FrameSurfaceWRef _frameSurface;
+  FrameTextureWRef _frameTexture;
 
   FrameWRef _next, _prev;
 
