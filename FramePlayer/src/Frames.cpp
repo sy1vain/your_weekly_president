@@ -12,19 +12,21 @@ void Frames::clear(){
 
 void Frames::addFrame(FrameRef frame){
   if(!frame) return;
-  frames.push_back(frame);
-  sortAndLink();
+  frames[frame->id()] = frame;
+  relink();
 }
 
-void Frames::sortAndLink(){
+FrameRef Frames::get(const std::string & id){
+  return frames[id];
+}
+
+void Frames::relink(){
   if(frames.size()==0) return;
-  std::sort(frames.begin(), frames.end(), [](FrameRef a, FrameRef b) -> bool {
-    return (a->id().compare(b->id()) < 0);
-  });
 
   //link prev & next, using a loop
-  auto prev = frames.back();
-  for(auto next : frames){
+  auto prev = frames.rbegin()->second;
+  for(auto nextPair : frames){
+    auto next = nextPair.second;
     prev->next(next);
     next->prev(prev);
     prev = next;

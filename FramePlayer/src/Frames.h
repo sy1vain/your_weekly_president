@@ -11,8 +11,11 @@ public:
   void addFrame(FrameRef frame);
   void addFrame(const std::string& id, const std::string& path){ addFrame(Frame::create(id, path)); }
 
-protected:
-  std::vector<FrameRef> frames;
+  FrameRef get(const std::string & id);
 
-  void sortAndLink();
+protected:
+  // std::vector<FrameRef> frames;
+  std::map<std::string, FrameRef> frames;
+
+  void relink();
 };
