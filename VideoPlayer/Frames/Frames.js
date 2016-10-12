@@ -3,6 +3,7 @@ const Frame = require('./Frame');
 const fs = require('fs');
 const async = require('async');
 const Broadcaster = require('../Broadcaster');
+const Settings = require('../Settings');
 
 class Frames {
 
@@ -39,8 +40,8 @@ class Frames {
     async.eachSeries(this.frames, (frame, next)=>{
       frame.createFrame({
         moviePath,
-        width: 1920/2,
-        height: 1080/2
+        width: Settings.frame_width,
+        height: Settings.frame_height
       }, next);
     }, cb);
   }
