@@ -13,4 +13,6 @@ public:
 
 protected:
   std::vector<FrameRef> frames;
+
+  void sortAndLink();
 };
