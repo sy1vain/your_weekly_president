@@ -5,7 +5,7 @@ FrameSurface::FrameSurface(const std::string& filepath) : filepath(filepath){
 }
 
 FrameSurface::~FrameSurface(){
-  std::cout << "allocating surface" << std::endl;
+  std::cout << "allocating surface " << filepath << std::endl;
 }
 
 SurfaceRef FrameSurface::getSurface(){

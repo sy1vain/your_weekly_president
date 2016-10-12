@@ -2,6 +2,8 @@
 
 //--------------------------------------------------------------
 void FramePlayer::setup(){
+  frameLoader = FrameLoader::create();
+
   oscIn.setup(OSC_IN);
   oscOut.setup("127.0.0.1", OSC_OUT);
 
@@ -16,6 +18,8 @@ void FramePlayer::update(){
     ofxOscMessage msg;
     if(oscIn.getNextMessage(msg)) parseOSCMessage(msg);
   }
+
+  frameLoader->update();
 }
 
 //--------------------------------------------------------------
@@ -35,6 +39,7 @@ void FramePlayer::draw(){
 void FramePlayer::show(const std::string& id){
   FrameRef frame = frames.get(id);
   if(!frame) return;
+  frameLoader->setCurrentFrame(frame);
   currentFrame = frame;
 }
 

@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxOsc.h"
 #include "Frames.h"
+#include "FrameLoader.h"
 
 #define OSC_IN 8780
 #define OSC_OUT 8781
@@ -19,6 +20,7 @@ class FramePlayer : public ofBaseApp{
 
 		Frames frames;
 		FrameRef currentFrame;
+		FrameLoaderRef frameLoader;
 
 		void show(const std::string& id);
 

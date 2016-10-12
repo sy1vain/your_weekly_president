@@ -20,14 +20,11 @@ FrameRef Frame::prev(){
 
 FrameSurfaceRef Frame::frameSurface(){
   if(auto frameSurface = _frameSurface.lock()){
-    //make sure it is loaded
-    frameSurface->load();
     return frameSurface;
   }
 
-  //not set, se reload it
+  //not set, so cerate it
   auto frameSurface = FrameSurface::create(_filepath);
-  frameSurface->load();
   _frameSurface = frameSurface;
   return frameSurface;
 }
@@ -36,6 +33,7 @@ FrameTextureRef Frame::frameTexture(){
   if(auto frameTexture = _frameTexture.lock()) return frameTexture;
 
   auto frameSurface = this->frameSurface();
+  frameSurface->load(); // make sure it is loaded
   auto frameTexture = FrameTexture::create(frameSurface->getSurface());
   _frameTexture = frameTexture;
   return frameTexture;
