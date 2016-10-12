@@ -20,25 +20,15 @@ class VideoPlayer {
       Broadcaster.send('/ready');
       this.frameController.setFrames(this.frames.frames);
       this.player.play();
+
+      if(this.frames.frames && this.frames.frames.length) this.initPowerMate();
     });
 
     setInterval(()=>{
       // console.log(`time: ${this.player.time}`);
       this.frameController.updateTime(this.player.time);
     }, 100);
-
-    setInterval(()=>{
-      console.log('do next..');
-
-      for(let i=1; i<=5; i++){
-        console.log(i);
-        setTimeout(()=>{
-          console.log('timedout!');
-          this.next();
-        }, 100*i)
-      }
-
-    }, 15000);
+    
   }
 
   initFrames(cb){
@@ -54,6 +44,17 @@ class VideoPlayer {
       frames.createFiles(Settings.video_path, cb);
     });
 
+  }
+
+  initPowerMate(){
+    const PowerMate = require('./PowerMate')
+    this.powerMate = new PowerMate();
+    this.powerMate.on('next', ()=>{
+      this.next();
+    });
+    this.powerMate.on('prev', ()=>{
+      this.prev();
+    });
   }
 
   next(){
