@@ -1,7 +1,7 @@
 #pragma once
 
-#define LOAD_SURFACES 200
-#define LOAD_TEXTURES 20
+#define LOAD_SURFACES 50
+#define LOAD_TEXTURES 10
 
 #include "Frame.h"
 #include "ofThread.h"
