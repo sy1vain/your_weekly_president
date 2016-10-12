@@ -28,7 +28,7 @@ void FramePlayer::draw(){
 
   if(currentFrame){
     auto frameTexture = currentFrame->frameTexture();
-    if(frameTexture && frameTexture->isTexturised()){
+    if(frameTexture && frameTexture->isUploaded()){
       auto texture = frameTexture->getTexture();
       if(texture) texture->draw(0,0);
     }

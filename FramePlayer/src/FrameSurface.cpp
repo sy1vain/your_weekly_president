@@ -5,19 +5,20 @@ FrameSurface::FrameSurface(const std::string& filepath) : filepath(filepath){
 }
 
 FrameSurface::~FrameSurface(){
-  std::cout << "allocating surface " << filepath << std::endl;
+}
+
+bool FrameSurface::isLoaded(){
+  std::lock_guard<std::recursive_mutex> lock(mutex);
+  return surface && surface->isAllocated();
 }
 
 SurfaceRef FrameSurface::getSurface(){
+  std::lock_guard<std::recursive_mutex> lock(mutex);
   return surface;
 }
 
-FrameTextureRef FrameSurface::createFrameTexture(){
-  if(!isLoaded()) return FrameTextureRef();
-  return FrameTexture::create(surface);
-}
-
 void FrameSurface::load(){
+  std::lock_guard<std::recursive_mutex> lock(mutex);
   if(isLoaded()) return;
 
   std::cout << "Loading " << filepath << std::endl;

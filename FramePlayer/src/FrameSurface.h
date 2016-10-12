@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofImage.h"
-#include "FrameTexture.h"
 
 typedef std::shared_ptr<class FrameSurface> FrameSurfaceRef;
 typedef std::weak_ptr<class FrameSurface> FrameSurfaceWRef;
@@ -17,12 +16,9 @@ public:
 
   ~FrameSurface();
 
-  bool isLoaded(){
-    return surface && surface->isAllocated();
-  }
+  bool isLoaded();
 
   SurfaceRef getSurface();
-  FrameTextureRef createFrameTexture();
 
   void load();
 
@@ -31,4 +27,6 @@ protected:
 
   std::string filepath;
   SurfaceRef surface;
+
+  std::recursive_mutex mutex;
 };

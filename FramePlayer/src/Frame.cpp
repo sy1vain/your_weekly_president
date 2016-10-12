@@ -33,8 +33,8 @@ FrameTextureRef Frame::frameTexture(){
   if(auto frameTexture = _frameTexture.lock()) return frameTexture;
 
   auto frameSurface = this->frameSurface();
-  frameSurface->load(); // make sure it is loaded
-  auto frameTexture = FrameTexture::create(frameSurface->getSurface());
+  // frameSurface->load(); // make sure it is loaded
+  auto frameTexture = FrameTexture::create(frameSurface);
   _frameTexture = frameTexture;
   return frameTexture;
 }

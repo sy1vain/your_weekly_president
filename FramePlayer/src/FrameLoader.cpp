@@ -1,26 +1,111 @@
 #include "FrameLoader.h"
 
 FrameLoader::FrameLoader(){
-
+  startThread();
 }
 
 void FrameLoader::update(){
 
+  //see threaded function how this works, but this is on the main thread because they are textures
+  std::vector<FrameTextureRef> textures;
+
+  FrameRef next, prev;
+  {
+    lock();
+    next = prev = currentFrame;
+    unlock();
+  }
+
+  bool hasLoaded = false;
+
+  while(next && prev && textures.size() < 5){
+    FrameTextureRef frameTexture;
+
+    frameTexture = next->frameTexture();
+    if(!hasLoaded && !frameTexture->isUploaded()){
+      frameTexture->upload();
+      hasLoaded = true;
+    }
+    textures.push_back(frameTexture);
+
+    frameTexture = prev->frameTexture();
+    if(!hasLoaded && !frameTexture->isUploaded()){
+      frameTexture->upload();
+      hasLoaded = true;
+    }
+    textures.push_back(frameTexture);
+
+    next = next->next();
+    prev = prev->prev();
+  }
+
+
+  {
+    lock();
+    this->textures = textures;
+    unlock();
+  }
 }
 
 //for now we just load the single one and keep it
 void FrameLoader::setCurrentFrame(FrameRef frame){
   if(!frame) return;
 
-  currentFrame = frame;
+  {
+    lock();
+    currentFrame = frame;
+    unlock();
+  }
+}
 
-  std::vector<FrameSurfaceRef> surfaces;
-  surfaces.push_back(frame->frameSurface());
+void FrameLoader::threadedFunction(){
+  std::cout << "Starting loader thread" << std::endl;
+  while(isThreadRunning()){
 
-  this->surfaces = surfaces;
+    std::vector<FrameSurfaceRef> surfaces;
+    FrameRef next, prev;
 
-  std::vector<FrameTextureRef> textures;
-  textures.push_back(frame->frameTexture());
+    { //load the current frame in botc next & prev
+      lock();
+      next = prev = currentFrame;
+      unlock();
+    }
 
-  this->textures = textures;
+    //mark this iteration as nothing loaded yet
+    bool hasLoaded = false;
+
+    //while we have a prev/next and room
+    //we add a surface and load it if needed
+    //and we haven;t loaded any yet
+    while(next && prev && surfaces.size() < 10){
+      FrameSurfaceRef frameSurface;
+
+      frameSurface = next->frameSurface();
+      if(!hasLoaded && !frameSurface->isLoaded()){
+        frameSurface->load();
+        hasLoaded = true;
+      }
+      surfaces.push_back(frameSurface);
+
+      frameSurface = prev->frameSurface();
+      if(!hasLoaded && !frameSurface->isLoaded()){
+        frameSurface->load();
+        hasLoaded = true;
+      }
+      surfaces.push_back(frameSurface);
+
+      //find next  /  prev
+      next = next->next();
+      prev = prev->prev();
+    }
+
+    //save them to our loaded surfaces
+    {
+      lock();
+      this->surfaces = surfaces;
+      unlock();
+    }
+
+  }
+  std::cout << "Stopped loader thread" << std::endl;
 }
