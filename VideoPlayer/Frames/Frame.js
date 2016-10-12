@@ -30,6 +30,7 @@ class Frame {
   }
 
   broadcast(){
+    if(!this.timecode || !this.filepath) return;
     Broadcaster.send('/frame', this.timecode, this.filepath);
   }
 
