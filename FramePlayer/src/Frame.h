@@ -3,6 +3,7 @@
 #include <string>
 
 #include "FrameSurface.h"
+#include "FrameTexture.h"
 
 typedef std::shared_ptr<class Frame> FrameRef;
 
@@ -20,5 +21,6 @@ protected:
   std::string _filepath;
 
   FrameSurfaceWRef frameSurface;
+  FrameTextureWRef frameTexture;
 
 };
