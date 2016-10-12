@@ -21,7 +21,6 @@ class Player {
   }
 
   play(position=0){
-    console.log('play', position);
     this.seekTo(position);
   }
 
@@ -42,7 +41,7 @@ class Player {
   seekTo(position){
     position = position || 0;
 
-    clearTimeout(this._startDelayer);
+    this.time = position;
 
     this.player.getPosition((err, seconds)=>{
       if(err){
@@ -58,21 +57,24 @@ class Player {
         return;
       }
 
-      this.time = position;
       this._startPlayer(position, this._startDelay);
     });
   }
 
   _startPlayer(pos=0, delay=0){
+    this.player.quit();
+    this.player.kill();
+    clearTimeout(this._startDelayer);
     if(delay>0){
       this._startDelayer = setTimeout(()=>{
         this._startPlayer(pos);
-      });
+      }, delay);
       return;
     }
 
     this.time = pos;
 
+    pos = pos - 1;
     this.player.open(this._filepath, {
       'no-osd': true,
       'no-keys': true,
