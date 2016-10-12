@@ -15,6 +15,8 @@ public:
     return FrameSurfaceRef(new FrameSurface(file));
   }
 
+  ~FrameSurface();
+
   bool isLoaded(){
     return surface && surface->isAllocated();
   }

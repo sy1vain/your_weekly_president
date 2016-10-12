@@ -15,6 +15,8 @@ public:
     return std::shared_ptr<FrameTexture>(new FrameTexture(surface));
   }
 
+  ~FrameTexture();
+
   bool isTexturised(){
     return texture && texture->isAllocated();
   }

@@ -14,7 +14,6 @@ public:
   FrameRef get(const std::string & id);
 
 protected:
-  // std::vector<FrameRef> frames;
   std::map<std::string, FrameRef> frames;
 
   void relink();

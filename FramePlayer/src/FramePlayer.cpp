@@ -21,6 +21,21 @@ void FramePlayer::update(){
 //--------------------------------------------------------------
 void FramePlayer::draw(){
   ofClear(0);
+
+  if(currentFrame){
+    auto frameTexture = currentFrame->frameTexture();
+    if(frameTexture && frameTexture->isTexturised()){
+      auto texture = frameTexture->getTexture();
+      if(texture) texture->draw(0,0);
+    }
+  }
+}
+
+//--------------------------------------------------------------
+void FramePlayer::show(const std::string& id){
+  FrameRef frame = frames.get(id);
+  if(!frame) return;
+  currentFrame = frame;
 }
 
 //--------------------------------------------------------------
@@ -35,6 +50,13 @@ void FramePlayer::parseOSCMessage(ofxOscMessage &msg){
 
   if(msg.getAddress()=="/start"){
     frames.clear();
+    return;
+  }
+
+  if(msg.getAddress()=="/show"){
+    if(msg.getNumArgs()==1 && msg.getArgType(0)==OFXOSC_TYPE_STRING){
+      show(msg.getArgAsString(0));
+    }
     return;
   }
 }

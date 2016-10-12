@@ -18,6 +18,9 @@ class FramePlayer : public ofBaseApp{
 		ofxOscSender oscOut;
 
 		Frames frames;
+		FrameRef currentFrame;
+
+		void show(const std::string& id);
 
 		void parseOSCMessage(ofxOscMessage &msg);
 };

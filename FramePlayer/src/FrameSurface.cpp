@@ -4,6 +4,10 @@ FrameSurface::FrameSurface(const std::string& filepath) : filepath(filepath){
 
 }
 
+FrameSurface::~FrameSurface(){
+  std::cout << "allocating surface" << std::endl;
+}
+
 SurfaceRef FrameSurface::getSurface(){
   return surface;
 }
@@ -15,6 +19,8 @@ FrameTextureRef FrameSurface::createFrameTexture(){
 
 void FrameSurface::load(){
   if(isLoaded()) return;
+
+  std::cout << "Loading " << filepath << std::endl;
 
   SurfaceRef s = SurfaceRef(new ofImage());
   s->setUseTexture(false);
