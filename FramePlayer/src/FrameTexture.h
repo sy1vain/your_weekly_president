@@ -23,7 +23,9 @@ public:
     return texture && texture->isAllocated();
   }
 
-  void upload(bool forceLoad=false);
+  bool hasContent();
+
+  bool upload(bool forceLoad=false);
 
   TextureRef getTexture(){
     return texture;

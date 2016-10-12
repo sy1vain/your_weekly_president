@@ -22,18 +22,12 @@ void FrameLoader::update(){
     FrameTextureRef frameTexture;
 
     frameTexture = next->frameTexture();
-    if(!hasLoaded && !frameTexture->isUploaded()){
-      frameTexture->upload();
-      hasLoaded = true;
-    }
-    textures.push_back(frameTexture);
+    if(!hasLoaded && !frameTexture->isUploaded()) hasLoaded = frameTexture->upload();
+    if(frameTexture->hasContent()) textures.push_back(frameTexture);
 
     frameTexture = prev->frameTexture();
-    if(!hasLoaded && !frameTexture->isUploaded()){
-      frameTexture->upload();
-      hasLoaded = true;
-    }
-    textures.push_back(frameTexture);
+    if(!hasLoaded && !frameTexture->isUploaded()) hasLoaded = frameTexture->upload();
+    if(frameTexture->hasContent()) textures.push_back(frameTexture);
 
     next = next->next();
     prev = prev->prev();
@@ -81,17 +75,11 @@ void FrameLoader::threadedFunction(){
       FrameSurfaceRef frameSurface;
 
       frameSurface = next->frameSurface();
-      if(!hasLoaded && !frameSurface->isLoaded()){
-        frameSurface->load();
-        hasLoaded = true;
-      }
+      if(!hasLoaded && !frameSurface->isLoaded()) hasLoaded = frameSurface->load();
       surfaces.push_back(frameSurface);
 
       frameSurface = prev->frameSurface();
-      if(!hasLoaded && !frameSurface->isLoaded()){
-        frameSurface->load();
-        hasLoaded = true;
-      }
+      if(!hasLoaded && !frameSurface->isLoaded()) hasLoaded = frameSurface->load();
       surfaces.push_back(frameSurface);
 
       //find next  /  prev

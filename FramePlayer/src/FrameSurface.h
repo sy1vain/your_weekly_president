@@ -20,7 +20,7 @@ public:
 
   SurfaceRef getSurface();
 
-  void load();
+  bool load();
 
 protected:
   FrameSurface(const std::string& file);

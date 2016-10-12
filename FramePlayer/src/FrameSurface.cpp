@@ -17,9 +17,9 @@ SurfaceRef FrameSurface::getSurface(){
   return surface;
 }
 
-void FrameSurface::load(){
+bool FrameSurface::load(){
   std::lock_guard<std::recursive_mutex> lock(mutex);
-  if(isLoaded()) return;
+  if(isLoaded()) return true;
 
   std::cout << "Loading " << filepath << std::endl;
 
@@ -27,7 +27,9 @@ void FrameSurface::load(){
   s->setUseTexture(false);
   if(s->load(filepath)){
     surface = s;
-  }else{
-    std::cout << "Unable to load: " << filepath << std::endl;
+    return true;
   }
+
+  std::cout << "Unable to load: " << filepath << std::endl;
+  return false;
 }
