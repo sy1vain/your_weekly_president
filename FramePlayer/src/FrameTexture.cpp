@@ -5,6 +5,8 @@ FrameTexture::FrameTexture(FrameSurfaceRef frameSurface) : frameSurface(frameSur
 }
 
 FrameTexture::~FrameTexture(){
+  if(texture) texture->clear();
+  // std::cout << "deleting frame texture" << std::endl;
 }
 
 bool FrameTexture::hasContent(){

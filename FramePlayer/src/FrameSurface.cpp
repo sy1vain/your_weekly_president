@@ -5,6 +5,7 @@ FrameSurface::FrameSurface(const std::string& filepath) : filepath(filepath){
 }
 
 FrameSurface::~FrameSurface(){
+  // std::cout << "deleting frame surface" << std::endl;
 }
 
 bool FrameSurface::isLoaded(){
