@@ -13,6 +13,7 @@ void Frames::clear(){
 void Frames::addFrame(FrameRef frame){
   if(!frame) return;
   frames.push_back(frame);
+  sortAndLink();
 }
 
 void Frames::sortAndLink(){

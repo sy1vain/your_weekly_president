@@ -39,6 +39,7 @@ public:
   }
 
   FrameTextureRef frameTexture();
+  
 protected:
   Frame(std::string id, std::string filepath);
 
