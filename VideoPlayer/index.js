@@ -3,6 +3,8 @@ const  {Frames, FrameController} = require('./Frames');
 const Player = require('./Player');
 const Broadcaster = require('./Broadcaster');
 const path = require('path');
+const fs = require('fs');
+const Settings = require('./Settings');
 
 class VideoPlayer {
 
@@ -10,7 +12,7 @@ class VideoPlayer {
     Broadcaster.send('/start');
 
     this.frameController = new FrameController();
-    this.player = new Player();
+    this.player = new Player(Settings.video_path);
 
 
     this.initFrames((err)=>{
@@ -43,13 +45,13 @@ class VideoPlayer {
     let frames = new Frames();
     this.frames = frames;
 
-    frames.loadMarkers(path.join(__dirname, '..', 'tmp', 'markers.txt'), (err)=>{
+    frames.loadMarkers(Settings.marker_path, (err)=>{
       if(err){
         console.log('no frames found');
         return cb && cb();
       }
 
-      frames.createFiles(path.join(__dirname, '..', 'tmp', 'ywp.mp4'), cb);
+      frames.createFiles(Settings.video_path, cb);
     });
 
   }

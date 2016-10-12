@@ -5,7 +5,7 @@ const path = require('path');
 
 class Player {
 
-  constructor(){
+  constructor(filepath){
     this._stopOnSeek = true;
     this._startDelay = 500;
     this._playing = false;
@@ -17,7 +17,7 @@ class Player {
       //catching error but ignoring it
     });
 
-    this._filepath = path.join(__dirname, '..', '..', 'tmp', 'ywp.mp4');
+    this._filepath = filepath;
   }
 
   play(position=0){

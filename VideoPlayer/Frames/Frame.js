@@ -1,12 +1,12 @@
 "use strict";
 const _ = require('lodash');
 const ffmpeg = require('fluent-ffmpeg');
-const os = require('os');
 const path = require('path');
 const fs = require('fs');
 const Broadcaster = require('../Broadcaster');
+const Settings = require('../Settings');
 
-if(os.platform()=='linux'){
+if(require('os').platform()=='linux'){
   console.log('ffmpeg => /usr/bin/avconv');
   ffmpeg.setFfmpegPath('/usr/bin/avconv');
 }
@@ -36,10 +36,11 @@ class Frame {
   createFrame(options = {
     moviePath: null
   }, next){
-    options.width = options.width || 1920;
-    options.height = options.height || 1080;
+    options.width = options.width || '?';
+    options.height = options.height || '?';
 
-    let filepath = path.join(os.tmpdir(), 'ywp-' + this.timecode.replace(/:/g, '_') + '_' + options.width + 'x' + options.height + '.jpg');
+    if (!fs.existsSync(Settings.tmp_path)) fs.mkdirSync(Settings.tmp_path);
+    let filepath = path.join(Settings.tmp_path, 'ywp-' + this.timecode.replace(/:/g, '_') + '_' + options.width + 'x' + options.height + '.jpg');
 
     fs.exists(filepath, (exists)=>{
       if(exists){
@@ -50,7 +51,7 @@ class Frame {
       console.log(`converting ${this.timecode} to ${filepath}`);
 
       let command = ffmpeg(options.moviePath).seekInput(this.timecode).outputOptions(['-vframes 1', '-qscale:v 2']);
-      command.size(options.width+'x'+options.height);
+      if(!(options.width=='?' && options.height=='?')) command.size(options.width+'x'+options.height);
       command.output(filepath).on('end', ()=>{
         this.filepath = filepath;
         next();
