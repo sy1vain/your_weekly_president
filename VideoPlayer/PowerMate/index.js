@@ -30,8 +30,8 @@ class PowerMate extends EventEmitter {
   handleTurn(delta){
 
     this.counter += this.step * delta;
-    
-    if(this.ignoring) return;
+
+    if(this.ignoring) return this.emit('hold');
 
     if(Math.abs(this.counter)>=1){
       let step = this.counter.clamp(-1,1);

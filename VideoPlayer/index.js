@@ -57,12 +57,16 @@ class VideoPlayer {
     const PowerMate = require('./PowerMate')
     this.powerMate = new PowerMate();
     this.powerMate.on('next', ()=>{
+      if(!this.player.canSeek) return;
       this.next();
     });
     this.powerMate.on('prev', ()=>{
+      if(!this.player.canSeek) return;
       this.prev();
     });
     this.powerMate.on('step', (delta)=>{
+
+      if(!this.player.canSeek) return;
 
       while(delta>=1){
         delta -= 1;
@@ -74,6 +78,12 @@ class VideoPlayer {
         this.prev();
       }
 
+    });
+    this.powerMate.on('hold', ()=>{
+      if(!this.player.canSeek) return;
+      let frame = this.frameController.current;
+      if(!frame) return;
+      this.player.seekTo(frame.time);
     });
   }
 

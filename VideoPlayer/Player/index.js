@@ -10,11 +10,14 @@ class Player extends EventEmitter {
   constructor(filepath){
     super();
     this._stopOnSeek = true;
-    this._startDelay = 500;
+    this._startDelay = 1000;
     this._playing = false;
     this._startTime = 0;
     this._ignoreStatusUpdates = 0;
     this._duration = -1;
+    this._seekLockTime = 0;
+    this._playerOpen = false;
+    this._lockSeek = 1000;
 
     this.player = new OMXPlayer();
     this.player.on('error', (err)=>{
@@ -66,38 +69,57 @@ class Player extends EventEmitter {
 
     this.time = position;
 
-    this.player.getPosition((err, seconds)=>{
-      if(err){
-        this._startPlayer(position, this._startDelay);
-        return;
-      }
-      if(Math.abs(seconds-position)<1) return; //close enough
-
-      if(!this._stopOnSeek){
-        this.player.setPosition(position, (err, seconds)=>{
-          this.time = seconds;
-        });
-        return;
-      }
-
-      this._startPlayer(position, this._startDelay);
-    });
-  }
-
-  _startPlayer(pos=0, delay=0){
-    clearTimeout(this._startDelayer);
-
-    if(delay>0){
-      this._startDelayer = setTimeout(()=>{
-        this._startPlayer(pos);
-      }, delay);
-      this.player.kill();
+    if(!this._playerOpen){
+      this._startPlayer(position);
       return;
     }
 
+    //just do it
+    if(!this._stopOnSeek){
+      this.player.setPosition(position, (err, seconds)=>{
+        this.time = seconds;
+      });
+      return;
+    }
+
+    //we have only just begon probably
+    if(!this.canSeek) return;
+
+    this._stopPlayer(()=>{
+      this._startPlayer(position);
+    });
+  }
+
+  get canSeek(){
+    return Date.now()>this._seekLockTime;
+  }
+
+  set canSeek(b){
+    if(b){
+      this._seekLockTime = 0;
+    }else{
+      this._seekLockTime = Date.now() + this._lockSeek;
+    }
+  }
+
+  _stopPlayer(cb){
+    if(!this._playerOpen) return;
+
     this.player.kill(()=>{
+      this._playerOpen = false;
+      return cb && cb();
+    });
+  }
+
+  _startPlayer(pos=0){
+    if(this._playerOpen) return;
+
+    clearTimeout(this._startDelayer);
+    this._startDelayer = setTimeout(()=>{
       this.time = pos;
       this.duration = -1;
+      this.canSeek = false;
+      this._playerOpen = true;
 
       pos = pos - 1;
       let omxOptions = Object.assign({}, {
@@ -105,7 +127,8 @@ class Player extends EventEmitter {
         'no-keys': true
       }, Settings.omx || {}, {pos});
       this.player.open(this._filepath, omxOptions);
-    });
+      console.log('starting player!');
+    }, this._startDelay);
   }
 
 }
