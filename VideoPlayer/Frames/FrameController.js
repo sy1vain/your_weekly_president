@@ -51,25 +51,29 @@ class FrameController {
     this.next();
   }
 
-  next(){
+  next(skip=false){
     if(!this.hasFrames()) return;
     if(!this.current){
       this.current = this._frames[0];
       return;
     }
 
-    this.current = this.current.next;
+    do {
+      this.current = this.current.next;
+    } while(this.current && skip && this.current.skippable);
     return this.current;
   }
 
-  prev(){
+  prev(skip=false){
     if(!this.hasFrames()) return;
     if(!this.current){
       this.prev = this._frames[this._frames.length-1];
       return;
     }
 
-    this.current = this.current.prev;
+    do {
+      this.current = this.current.prev;
+    } while(this.current && skip && this.current.skippable);
     return this.current;
   }
 

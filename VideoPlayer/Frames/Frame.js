@@ -18,6 +18,7 @@ class Frame {
     time = time || 0;
     this.time = timeToSeconds(time);
     this.timecode = timeToTimecode(this.time);
+    this.skippable = _.isString(time) && time.includes('*');
     this._filepath = null;
   }
 

@@ -28,7 +28,7 @@ class VideoPlayer {
       // console.log(`time: ${this.player.time}`);
       this.frameController.updateTime(this.player.time);
     }, 100);
-    
+
   }
 
   initFrames(cb){
@@ -58,14 +58,14 @@ class VideoPlayer {
   }
 
   next(){
-    let frame = this.frameController.next();
+    let frame = this.frameController.next(true);
     if(!frame) return;
     console.log(`should seek to ${frame.time}`);
     this.player.seekTo(frame.time);
   }
 
   prev(){
-    let frame = this.frameController.prev();
+    let frame = this.frameController.prev(true);
     if(!frame) return;
     console.log(`should seek to ${frame.time}`);
     this.player.seekTo(frame.time);
