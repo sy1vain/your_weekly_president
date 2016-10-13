@@ -35,7 +35,6 @@ void FrameLoader::update(){
     prev = prev->prev();
   }
 
-
   {
     lock();
     this->textures = textures;

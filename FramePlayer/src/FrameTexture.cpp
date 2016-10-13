@@ -10,14 +10,14 @@ FrameTexture::~FrameTexture(){
 }
 
 bool FrameTexture::hasContent(){
+  std::lock_guard<std::recursive_mutex> lock(mutex);
   if(isUploaded()) return true;
-  if(auto frameSurface = this->frameSurface.lock()){
-    return frameSurface->isLoaded();
-  }
+  if(auto frameSurface = this->frameSurface.lock()) return true;
   return false;
 }
 
 bool FrameTexture::upload(bool forceLoad){
+  std::lock_guard<std::recursive_mutex> lock(mutex);
   if(isUploaded()) return true;
 
   if(auto frameSurface = this->frameSurface.lock()){

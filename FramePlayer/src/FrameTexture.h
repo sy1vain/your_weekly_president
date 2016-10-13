@@ -20,6 +20,7 @@ public:
   ~FrameTexture();
 
   bool isUploaded(){
+    std::lock_guard<std::recursive_mutex> lock(mutex);
     return texture && texture->isAllocated();
   }
 
@@ -28,6 +29,7 @@ public:
   bool upload(bool forceLoad=false);
 
   TextureRef getTexture(){
+    std::lock_guard<std::recursive_mutex> lock(mutex);
     return texture;
   }
 
@@ -36,4 +38,6 @@ protected:
 
   FrameSurfaceWRef frameSurface;
   TextureRef texture;
+
+  std::recursive_mutex mutex;
 };

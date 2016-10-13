@@ -23,30 +23,42 @@ void FramePlayer::update(){
     if(oscIn.getNextMessage(msg)) parseOSCMessage(msg);
   }
 
-  frameLoader->update();
+  bool hasDoneWork = false;
+  if(currentFrame){
+    auto frameSurface = currentFrame->frameSurface(); //we request this just to make sure the frameTexture doesn't release it's frameSurface
+    auto frameTexture = currentFrame->frameTexture();
+
+    currentFrameTexture = frameTexture; //save it to keep it in memory for drawing and prevent release
+
+    if(frameTexture && !frameTexture->isUploaded()){
+      frameTexture->upload(true);
+      hasDoneWork = true;
+    }
+  }
+
+  //only update the frameLoader if there was no work done
+  //this prevents we upload multiple textures per frame
+  if(!hasDoneWork) frameLoader->update();
 }
 
 //--------------------------------------------------------------
 void FramePlayer::draw(){
   ofClear(0);
 
-  if(currentFrame){
-    auto frameTexture = currentFrame->frameTexture();
-    if(frameTexture && frameTexture->isUploaded()){
-      auto texture = frameTexture->getTexture();
-      if(texture){
-        ofPushMatrix();
-        float w = ofGetWidth();
-        float h = ofGetHeight();
-        float tw = texture->getWidth();
-        float th = texture->getHeight();
-        float s = min(w/tw, h/th);
-        ofTranslate(w/2, h/2);
-        ofScale(s,s);
-        ofTranslate(tw/-2, th/-2);
-        texture->draw(0,0);
-        ofPopMatrix();
-      }
+  if(currentFrameTexture){
+    auto texture = currentFrameTexture->getTexture();
+    if(texture){
+      ofPushMatrix();
+      float w = ofGetWidth();
+      float h = ofGetHeight();
+      float tw = texture->getWidth();
+      float th = texture->getHeight();
+      float s = min(w/tw, h/th);
+      ofTranslate(w/2, h/2);
+      ofScale(s,s);
+      ofTranslate(tw/-2, th/-2);
+      texture->draw(0,0);
+      ofPopMatrix();
     }
   }
 
