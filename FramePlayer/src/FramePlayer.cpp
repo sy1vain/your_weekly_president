@@ -2,6 +2,11 @@
 
 //--------------------------------------------------------------
 void FramePlayer::setup(){
+
+  ofSetFrameRate(30);
+
+  ofHideCursor();
+
   frameLoader = FrameLoader::create();
 
   oscIn.setup(OSC_IN);
@@ -45,6 +50,11 @@ void FramePlayer::draw(){
       }
     }
   }
+
+  // ofPushStyle();
+  // ofSetColor(255,0,0);
+  // ofDrawBitmapString("fps: " + ofToString(ofGetFrameRate(), 2), 48, 27);
+  // ofPopStyle();
 }
 
 //--------------------------------------------------------------
