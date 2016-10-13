@@ -10,6 +10,10 @@ const defaults = {
   video_path: 'ywp.mp4',
   marker_path: 'markers.txt',
   omx: {},
+  powermate: {
+    step: 0.1,
+    lock: 150
+  },
   preload_surfaces: 50,
   preload_textures: 10
 }

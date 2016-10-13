@@ -87,15 +87,15 @@ class Player extends EventEmitter {
   _startPlayer(pos=0, delay=0){
     clearTimeout(this._startDelayer);
 
-    this.player.quit();
-    this.player.kill(()=>{
-      if(delay>0){
-        this._startDelayer = setTimeout(()=>{
-          this._startPlayer(pos);
-        }, delay);
-        return;
-      }
+    if(delay>0){
+      this._startDelayer = setTimeout(()=>{
+        this._startPlayer(pos);
+      }, delay);
+      this.player.kill();
+      return;
+    }
 
+    this.player.kill(()=>{
       this.time = pos;
       this.duration = -1;
 

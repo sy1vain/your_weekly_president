@@ -62,6 +62,19 @@ class VideoPlayer {
     this.powerMate.on('prev', ()=>{
       this.prev();
     });
+    this.powerMate.on('step', (delta)=>{
+
+      while(delta>=1){
+        delta -= 1;
+        this.next();
+      }
+
+      while(delta<=-1){
+        delta += 1;
+        this.prev();
+      }
+
+    });
   }
 
   next(){
