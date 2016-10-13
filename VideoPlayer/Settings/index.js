@@ -9,7 +9,9 @@ const defaults = {
   tmp_path: os.tmpdir(),
   video_path: 'ywp.mp4',
   marker_path: 'markers.txt',
-  omx: {}
+  omx: {},
+  preload_surfaces: 50,
+  preload_textures: 10
 }
 
 let possiblePaths = [
@@ -43,3 +45,13 @@ for(let key in settings){
 
 
 module.exports = settings;
+
+
+const Broadcaster = require('../Broadcaster');
+
+Broadcaster.on('/setting', (key)=>{
+  console.log('setting', key);
+  if(settings[key]){
+    Broadcaster.send('/setting', key, settings[key]);
+  }
+});

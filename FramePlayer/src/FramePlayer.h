@@ -23,6 +23,9 @@ class FramePlayer : public ofBaseApp{
 		FrameLoaderRef frameLoader;
 
 		void show(const std::string& id);
+		void requestFrames();
+		void requestSettings();
+		void parseSetting(ofxOscMessage &msg);
 
 		void parseOSCMessage(ofxOscMessage &msg);
 };

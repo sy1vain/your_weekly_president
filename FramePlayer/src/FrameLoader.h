@@ -1,8 +1,5 @@
 #pragma once
 
-#define LOAD_SURFACES 50
-#define LOAD_TEXTURES 10
-
 #include "Frame.h"
 #include "ofThread.h"
 
@@ -22,9 +19,15 @@ public:
   void update();
   void setCurrentFrame(FrameRef frame);
 
+  void setNumSurfaces(int count);
+  void setNumTextures(int count);
+
 protected:
   FrameLoader();
   void threadedFunction();
+
+  int numSurfaces;
+  int numTextures;
 
   FrameRef currentFrame;
   std::vector<FrameSurfaceRef> surfaces;

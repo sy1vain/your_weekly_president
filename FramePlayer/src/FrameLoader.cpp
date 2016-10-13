@@ -1,6 +1,6 @@
 #include "FrameLoader.h"
 
-FrameLoader::FrameLoader(){
+FrameLoader::FrameLoader() : numSurfaces(0), numTextures(0) {
   startThread();
 }
 
@@ -10,15 +10,17 @@ void FrameLoader::update(){
   std::vector<FrameTextureRef> textures;
 
   FrameRef next, prev;
+  int numTextures;
   {
     lock();
     next = prev = currentFrame;
+    numTextures = this->numTextures;
     unlock();
   }
 
   bool hasLoaded = false;
 
-  while(next && prev && textures.size() < LOAD_TEXTURES){
+  while(next && prev && textures.size() < numTextures){
     FrameTextureRef frameTexture;
 
     frameTexture = next->frameTexture();
@@ -52,16 +54,30 @@ void FrameLoader::setCurrentFrame(FrameRef frame){
   }
 }
 
+void FrameLoader::setNumSurfaces(int count){
+  lock();
+  numSurfaces = count;
+  unlock();
+}
+
+void FrameLoader::setNumTextures(int count){
+  lock();
+  numTextures = count;
+  unlock();
+}
+
 void FrameLoader::threadedFunction(){
   std::cout << "Starting loader thread" << std::endl;
   while(isThreadRunning()){
 
     std::vector<FrameSurfaceRef> surfaces;
+    int numSurfaces;
     FrameRef next, prev;
 
     { //load the current frame in botc next & prev
       lock();
       next = prev = currentFrame;
+      numSurfaces = this->numSurfaces;
       unlock();
     }
 
@@ -71,7 +87,7 @@ void FrameLoader::threadedFunction(){
     //while we have a prev/next and room
     //we add a surface and load it if needed
     //and we haven;t loaded any yet
-    while(next && prev && surfaces.size() < LOAD_SURFACES){
+    while(next && prev && surfaces.size() < numSurfaces){
       FrameSurfaceRef frameSurface;
 
       frameSurface = next->frameSurface();

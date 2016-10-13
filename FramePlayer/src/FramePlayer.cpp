@@ -12,9 +12,8 @@ void FramePlayer::setup(){
   oscIn.setup(OSC_IN);
   oscOut.setup("127.0.0.1", OSC_OUT);
 
-  ofxOscMessage msg;
-  msg.setAddress("/requestframes");
-  oscOut.sendMessage(msg, false);
+  requestSettings();
+  requestFrames();
 }
 
 //--------------------------------------------------------------
@@ -60,9 +59,62 @@ void FramePlayer::draw(){
 //--------------------------------------------------------------
 void FramePlayer::show(const std::string& id){
   FrameRef frame = frames.get(id);
-  if(!frame) return;
+  if(!frame){
+    cout << "Frame not found: " << id << endl;
+    return;
+  }
   frameLoader->setCurrentFrame(frame);
   currentFrame = frame;
+}
+
+//--------------------------------------------------------------
+void FramePlayer::requestFrames(){
+  cout << "request frames" << endl;
+
+  {
+    ofxOscMessage msg;
+    msg.setAddress("/setting");
+    msg.addStringArg("preload_surfaces");
+    oscOut.sendMessage(msg, false);
+  }
+
+  {
+    ofxOscMessage msg;
+    msg.setAddress("/setting");
+    msg.addStringArg("preload_textures");
+    oscOut.sendMessage(msg, false);
+  }
+}
+
+//--------------------------------------------------------------
+void FramePlayer::requestSettings(){
+  cout << "request settings" << endl;
+
+  ofxOscMessage msg;
+  msg.setAddress("/requestframes");
+  oscOut.sendMessage(msg, false);
+}
+
+//--------------------------------------------------------------
+void FramePlayer::parseSetting(ofxOscMessage &msg){
+  if(msg.getArgType(0)!=OFXOSC_TYPE_STRING) return;
+  std::string setting = msg.getArgAsString(0);
+
+  if(setting=="preload_surfaces"){
+    try{
+      int value = msg.getArgAsInt(1);
+      frameLoader->setNumSurfaces(value);
+    }catch(...){
+    }
+  }
+
+  if(setting=="preload_textures"){
+    try{
+      int value = msg.getArgAsInt(1);
+      frameLoader->setNumTextures(value);
+    }catch(...){
+    }
+  }
 }
 
 //--------------------------------------------------------------
@@ -77,6 +129,8 @@ void FramePlayer::parseOSCMessage(ofxOscMessage &msg){
 
   if(msg.getAddress()=="/start"){
     frames.clear();
+    requestSettings();
+    requestFrames();
     return;
   }
 
@@ -85,5 +139,9 @@ void FramePlayer::parseOSCMessage(ofxOscMessage &msg){
       show(msg.getArgAsString(0));
     }
     return;
+  }
+
+  if(msg.getAddress()=="/setting"){
+    parseSetting(msg);
   }
 }
