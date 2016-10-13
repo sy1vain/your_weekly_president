@@ -63,7 +63,7 @@ class Player {
 
   _startPlayer(pos=0, delay=0){
     this.player.quit();
-    this.player.kill(true);
+    this.player.kill();
     clearTimeout(this._startDelayer);
     if(delay>0){
       this._startDelayer = setTimeout(()=>{
