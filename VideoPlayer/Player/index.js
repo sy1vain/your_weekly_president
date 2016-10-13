@@ -1,6 +1,7 @@
 "use strict"
 
 const OMXPlayer = require('omxplayer');
+const Settings = require('../Settings');
 const EventEmitter = require('events');
 const path = require('path');
 
@@ -99,11 +100,11 @@ class Player extends EventEmitter {
       this.duration = -1;
 
       pos = pos - 1;
-      this.player.open(this._filepath, {
+      let omxOptions = Object.assign({}, {
         'no-osd': true,
-        'no-keys': true,
-        pos
-      });
+        'no-keys': true
+      }, Settings.omx || {}, {pos});
+      this.player.open(this._filepath, omxOptions);
     });
   }
 
