@@ -105,7 +105,8 @@ class Player extends EventEmitter {
   _stopPlayer(cb){
     if(!this._playerOpen) return;
 
-    this.player.kill(()=>{
+    this.player.quit((err)=>{
+      console.log('quit', err);
       this._playerOpen = false;
       return cb && cb();
     });
