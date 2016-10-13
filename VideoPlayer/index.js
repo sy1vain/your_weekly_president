@@ -14,6 +14,10 @@ class VideoPlayer {
     this.frameController = new FrameController();
     this.player = new Player(Settings.video_path);
 
+    this.player.on('close', ()=>{
+      this.player.play();
+    });
+
 
     this.initFrames((err)=>{
       if(err){ return console.log('unable to prepare frames'); }
@@ -26,8 +30,11 @@ class VideoPlayer {
 
     setInterval(()=>{
       // console.log(`time: ${this.player.time}`);
+      let time = this.player.time;
+      let duration = this.player.duration;
+      if(duration>0 && time>=duration && !Settings.omx.loop) return this.player.play();
       this.frameController.updateTime(this.player.time);
-    }, 100);
+    }, 250);
 
   }
 

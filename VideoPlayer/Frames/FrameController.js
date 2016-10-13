@@ -81,12 +81,10 @@ class FrameController {
     if(!this.current) return this.next();
 
     while(timeDiff(time, this.current) > timeDiff(time, this.current.next)){
-      console.log(time);
       this.next();
     }
 
     while(timeDiff(time, this.current) > timeDiff(time, this.current.prev)){
-      console.log(time);
       this.prev();
     }
 

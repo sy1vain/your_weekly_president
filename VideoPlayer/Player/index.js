@@ -1,20 +1,28 @@
 "use strict"
 
 const OMXPlayer = require('omxplayer');
+const EventEmitter = require('events');
 const path = require('path');
 
-class Player {
+class Player extends EventEmitter {
 
   constructor(filepath){
+    super();
     this._stopOnSeek = true;
     this._startDelay = 500;
     this._playing = false;
     this._startTime = 0;
     this._ignoreStatusUpdates = 0;
+    this._duration = -1;
 
     this.player = new OMXPlayer();
     this.player.on('error', (err)=>{
       //catching error but ignoring it
+    });
+
+    this.player.on('close', ()=>{
+      this._duration = -1;
+      this.emit('close');
     });
 
     this._filepath = filepath;
@@ -36,6 +44,20 @@ class Player {
 
   get playing(){
     return this._playing;
+  }
+
+  get duration(){
+    if(this._duration==-1){
+      this.player.getDuration((err, seconds)=>{
+          if(err) return;
+          this.duration = seconds;
+      });
+    }
+    return this._duration;
+  }
+
+  set duration(seconds){
+    this._duration = seconds;
   }
 
   seekTo(position){
@@ -74,9 +96,9 @@ class Player {
       }
 
       this.time = pos;
+      this.duration = -1;
 
       pos = pos - 1;
-      console.log('starting player!');
       this.player.open(this._filepath, {
         'no-osd': true,
         'no-keys': true,

@@ -8,7 +8,8 @@ const defaults = {
   frame_height: 540,
   tmp_path: os.tmpdir(),
   video_path: 'ywp.mp4',
-  marker_path: 'markers.txt'
+  marker_path: 'markers.txt',
+  omx: {}
 }
 
 let possiblePaths = [
