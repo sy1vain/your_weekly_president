@@ -94,6 +94,13 @@ void FrameLoader::threadedFunction(){
       unlock();
     }
 
+    //if it has loaded something, do a short sleep, otherwise longer
+    if(hasLoaded){
+      sleep(10);
+    }else{
+      sleep(100);
+    }
+
   }
   std::cout << "Stopped loader thread" << std::endl;
 }
