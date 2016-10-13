@@ -11,8 +11,9 @@ class Frames {
       this._frames = [];
 
       Broadcaster.on('/requestframes', ()=>{
-        this._frames.forEach((frame)=>{
+        async.eachSeries(this._frames, (frame, next)=>{
           frame.broadcast();
+          setTimeout(next, 10);
         });
       });
   }
