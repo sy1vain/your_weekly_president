@@ -62,23 +62,26 @@ class Player {
   }
 
   _startPlayer(pos=0, delay=0){
-    this.player.quit();
-    this.player.kill();
     clearTimeout(this._startDelayer);
-    if(delay>0){
-      this._startDelayer = setTimeout(()=>{
-        this._startPlayer(pos);
-      }, delay);
-      return;
-    }
 
-    this.time = pos;
+    this.player.quit();
+    this.player.kill(()=>{
+      if(delay>0){
+        this._startDelayer = setTimeout(()=>{
+          this._startPlayer(pos);
+        }, delay);
+        return;
+      }
 
-    pos = pos - 1;
-    this.player.open(this._filepath, {
-      'no-osd': true,
-      'no-keys': true,
-      pos
+      this.time = pos;
+
+      pos = pos - 1;
+      console.log('starting player!');
+      this.player.open(this._filepath, {
+        'no-osd': true,
+        'no-keys': true,
+        pos
+      });
     });
   }
 
