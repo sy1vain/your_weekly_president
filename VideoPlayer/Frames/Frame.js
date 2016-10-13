@@ -3,6 +3,7 @@ const _ = require('lodash');
 const ffmpeg = require('fluent-ffmpeg');
 const path = require('path');
 const fs = require('fs');
+const {sprintf} = require('sprintf-js');
 const Broadcaster = require('../Broadcaster');
 const Settings = require('../Settings');
 
@@ -16,7 +17,7 @@ class Frame {
   constructor(time){
     time = time || 0;
     this.time = timeToSeconds(time);
-    this.timecode = timeToTimecode(time);
+    this.timecode = timeToTimecode(this.time);
     this._filepath = null;
   }
 
@@ -87,5 +88,5 @@ function timeToTimecode(time){
   var minutes = Math.floor(time/60) % 60;
   var hours = Math.floor(time/3600) % 60;
 
-  return hours.toFixed(2) + ':' + minutes.toFixed(2) + ':' + seconds.toFixed(2);
+  return sprintf('%02d:%02d:%02d', hours, minutes, seconds);
 }
