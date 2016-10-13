@@ -7,6 +7,7 @@ class Frames {
 public:
   Frames();
 
+  size_t size();
   void clear();
   void addFrame(FrameRef frame);
   void addFrame(const std::string& id, const std::string& path){ addFrame(Frame::create(id, path)); }

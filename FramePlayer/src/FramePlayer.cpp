@@ -60,6 +60,11 @@ void FramePlayer::draw(){
       texture->draw(0,0);
       ofPopMatrix();
     }
+  }else{
+    ofPushMatrix();
+    ofScale(5,5);
+    ofDrawBitmapString("num frames: " + ofToString(frames.size()),48,27);
+    ofPopMatrix();
   }
 
   // ofPushStyle();
@@ -141,6 +146,8 @@ void FramePlayer::parseOSCMessage(ofxOscMessage &msg){
 
   if(msg.getAddress()=="/start"){
     frames.clear();
+    currentFrame.reset();
+    currentFrameTexture.reset();
     requestSettings();
     requestFrames();
     return;

@@ -6,6 +6,10 @@ Frames::Frames(){
 
 }
 
+size_t Frames::size(){
+  return frames.size();
+}
+
 void Frames::clear(){
   frames.clear();
 }
