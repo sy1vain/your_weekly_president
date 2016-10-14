@@ -1,5 +1,7 @@
 "use strict";
 
+const Broadcaster = require('../Broadcaster');
+
 //fix modulo
 Number.prototype.mod = function(n) {
     return ((this % n) + n) % n;
@@ -86,7 +88,8 @@ class PowerMate extends EventEmitter {
       });
 
     }catch(e){
-      console.log(e.message);
+      Broadcaster.send('/error', e.message);
+      console.error(e.message);
       setTimeout(()=>{
         this._initPowermate();
       }, 1000);
