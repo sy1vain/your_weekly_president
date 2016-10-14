@@ -12,7 +12,6 @@
   "dependencies": {
     "async": "^2.0.1",
     "fluent-ffmpeg": "^2.1.0",
-    "install": "^0.8.1",
     "lodash": "^4.16.3",
     "node-powermate": "0.0.5",
     "npm": "^3.10.8",
