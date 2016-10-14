@@ -24,11 +24,6 @@ class Player extends EventEmitter {
       //catching error but ignoring it
     });
 
-    this.player.on('close', ()=>{
-      this._duration = -1;
-      this.emit('close');
-    });
-
     this._filepath = filepath;
   }
 
@@ -102,11 +97,23 @@ class Player extends EventEmitter {
     }
   }
 
+  _onPlayerClose(emit=false){
+    console.log('player close', emit);
+    this._duration = -1;
+    if(emit) this.emit('close');
+  }
+
   _stopPlayer(cb){
     if(!this._playerOpen) return;
 
+    //remove all close listeners and re-attach
+    //but prevent it from being emitted
+    this.player.removeAllListeners('close');
+    this.player.on('close', ()=>{
+      this._onPlayerClose(false);
+    });
+
     this.player.quit((err)=>{
-      console.log('quit', err);
       this._playerOpen = false;
       return cb && cb();
     });
@@ -127,7 +134,14 @@ class Player extends EventEmitter {
         'no-osd': true,
         'no-keys': true
       }, Settings.omx || {}, {pos});
+
+      //remove close listeners and re attach
+      this.player.removeAllListeners('close');
+      this.player.on('close', ()=>{
+        this._onPlayerClose(true);
+      });
       this.player.open(this._filepath, omxOptions);
+
       console.log('starting player!');
     }, this._startDelay);
   }

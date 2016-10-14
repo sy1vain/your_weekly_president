@@ -15,6 +15,7 @@ class VideoPlayer {
     this.player = new Player(Settings.video_path);
 
     this.player.on('close', ()=>{
+      console.log('resetting player due to close');
       this.player.play();
     });
 
@@ -32,7 +33,10 @@ class VideoPlayer {
       // console.log(`time: ${this.player.time}`);
       let time = this.player.time;
       let duration = this.player.duration;
-      if(duration>0 && time>=duration && !Settings.omx.loop) return this.player.play();
+      if(duration>0 && time>=duration && !Settings.omx.loop){
+        console.log(`resetting player due to ${time} (time) > ${duration} (duration)`);
+        return this.player.play();
+      }
       this.frameController.updateTime(this.player.time);
     }, 250);
 

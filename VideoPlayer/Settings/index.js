@@ -54,7 +54,6 @@ module.exports = settings;
 const Broadcaster = require('../Broadcaster');
 
 Broadcaster.on('/setting', (key)=>{
-  console.log('setting', key);
   if(settings[key]){
     Broadcaster.send('/setting', key, settings[key]);
   }
