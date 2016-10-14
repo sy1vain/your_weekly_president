@@ -22,7 +22,7 @@ class Frames {
     fs.readFile(path, 'utf8', (err, data) => {
       if(err) return cb && cb(`unable to load markers: ${path}`);
 
-      var timecodes = data.match(/\d{2}:\d{2}:\d{2}\*?/g);
+      var timecodes = data.match(/(\d+.+)?\d{2}:\d{2}:\d{2}\*?/g);
 
       timecodes.forEach((timecode)=>{
         var frame = new Frame(timecode);

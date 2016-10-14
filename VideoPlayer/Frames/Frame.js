@@ -14,11 +14,17 @@ if(require('os').platform()=='linux'){
 
 class Frame {
 
-  constructor(time){
-    time = time || 0;
+  constructor(data){
+    data = data || "00:00:00";
+    if(!_.isString(data)) data = data + "";
+
+    var match = data.match(/(\d+)?.*(\d{2}:\d{2}:\d{2})/);
+    this.id = match[1];
+    let time = match[2];
+
     this.time = timeToSeconds(time);
     this.timecode = timeToTimecode(this.time);
-    this.skippable = _.isString(time) && time.includes('*');
+    this.skippable = data.includes('*');
     this._filepath = null;
   }
 

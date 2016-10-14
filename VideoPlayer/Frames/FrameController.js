@@ -15,9 +15,10 @@ class FrameController {
   set current(frame){
     if(frame==this._current) return;
     this._current = frame;
-    let id = (frame)?frame.timecode:null;
-    this.show(id);
-    console.log(`set current frame: ${id}`);
+    let timecode = (frame)?frame.timecode:null;
+    let id = (frame)?frame.id:null;
+    this.show(timecode);
+    console.log(`set current frame: ${timecode} (${id})`);
   }
 
   get current(){
