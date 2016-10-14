@@ -17,14 +17,10 @@ class PowerMate extends EventEmitter {
   constructor(){
     super();
     this.ignoring = false;
-    this.powermate = new (require('node-powermate'))();
-    this.powermate.setBrightness(0);
-    this.powermate.on('wheelTurn', (wheelDelta)=>{
-      this.handleTurn(wheelDelta);
-    });
-
     this.step = Settings.powermate.step || 0.1;
     this.counter = 0;
+
+    this._initPowermate();
   }
 
   handleTurn(delta){
@@ -73,6 +69,28 @@ class PowerMate extends EventEmitter {
     setTimeout(()=>{
       this.ignoring = false;
     }, time);
+  }
+
+  _initPowermate(){
+    if(this.powermate) return;
+
+    try{
+      this.powermate = new (require('node-powermate'))();
+      this.powermate.setBrightness(0);
+      this.powermate.on('wheelTurn', (wheelDelta)=>{
+        this.handleTurn(wheelDelta);
+      });
+
+      this.powermate.on('error', ()=>{
+        console.log('!!!!!E');
+      });
+
+    }catch(e){
+      console.log(e.message);
+      setTimeout(()=>{
+        this._initPowermate();
+      }, 1000);
+    }
   }
 
 }
