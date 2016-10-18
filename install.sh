@@ -9,6 +9,7 @@ node=$(which node)
 
 # set lang setting
 sudo sh -c "echo 'LC_ALL=C.UTF-8' >> /etc/default/locale"
+. /etc/default/locale
 
 # set gpu memory
 sudo sh -c "echo 'gpu_mem=256' >> /boot/config.txt"
