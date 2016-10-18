@@ -2,7 +2,7 @@
 
 ## Install instructions
 
-* Install Raspbian Jessie Lite
+* Install Raspbian Jessie Lite (27-05-2016 version)
 * Download repository and run install scriot
 * Copy files using sftp program
 
