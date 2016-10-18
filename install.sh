@@ -3,9 +3,10 @@ script_dir=$(dirname $0)
 cd $script_dir
 project_dir=$(pwd)
 
-# get current dir name
+# get current dir name and setup paths
 dir_name=$(basename "$project_dir")
 node=$(which node)
+frameplayer="$project_dir/FramePlayer/bin/FramePlayer"
 
 # set lang setting
 sudo sh -c "echo 'LC_ALL=C.UTF-8' >> /etc/default/locale"
@@ -38,8 +39,6 @@ cd FramePlayer
 # openframeworks install
 echo "** Installing openFrameworks dependencies **"
 yes | sudo ./libs/openFrameworks/scripts/linux/debian/install_dependencies.sh
-
-frameplayer="$project_dir/FramePlayer/bin/FramePlayer"
 
 echo "** Building FramePlayer **"
 make
