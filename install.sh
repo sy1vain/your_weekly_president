@@ -37,7 +37,7 @@ cd FramePlayer
 
 # openframeworks install
 echo "** Installing openFrameworks dependencies **"
-sudo ./libs/openFrameworks/scripts/linux/debian/install_dependencies.sh
+yes | sudo ./libs/openFrameworks/scripts/linux/debian/install_dependencies.sh
 
 frameplayer="$project_dir/FramePlayer/bin/FramePlayer"
 
