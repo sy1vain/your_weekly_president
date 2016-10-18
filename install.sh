@@ -10,6 +10,7 @@ frameplayer="$project_dir/FramePlayer/bin/FramePlayer"
 
 # set lang setting
 sudo sh -c "echo 'LC_ALL=C.UTF-8' >> /etc/default/locale"
+export LC_ALL=C.UTF-8
 . /etc/default/locale
 
 # set gpu memory
