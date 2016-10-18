@@ -30,9 +30,18 @@ yes | sudo apt-get install git upstart libav-tools omxplayer nodejs libusb-1.0-0
 echo "** Install node modules **"
 npm install --production
 
-# load git modules
-echo "** Initializing submodules **"
-git submodule update --init
+if [ $1 = "quick" ] || [ $1 = "fast" ] ; then
+  # fast OF download
+  echo "** Downloading openFrameworks **"
+  mkdir -p FramePlayer/libs/openFrameworks
+  wget http://openframeworks.cc/versions/v0.9.3/of_v0.9.3_linuxarmv6l_release.tar.gz -O /tmp/OF.tar.gz
+  tar vxfz /tmp/OF.tar.gz -C FramePlayer/libs/openFrameworks --strip-components 1
+  rm /tmp/OF.tar.gz
+else
+  # load git modules
+  echo "** Initializing submodules **"
+  git submodule update --init
+fi
 
 # moving into FramePlayer directory
 cd FramePlayer
