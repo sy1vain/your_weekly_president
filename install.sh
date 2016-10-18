@@ -52,5 +52,6 @@ sudo cp ./upstart/ywp_frameplayer.conf /etc/init/
 sudo sed -i -e "s|~node|$node|" -e "s|~app|$project_dir|" /etc/init/ywp.conf
 sudo sed -i "s|~app|$frameplayer|" /etc/init/ywp_frameplayer.conf
 
-echo "** Rebooting **"
-sudo reboot
+echo "*******************************"
+echo "** Now copy files and reboot **"
+echo "*******************************"
