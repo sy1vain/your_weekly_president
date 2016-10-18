@@ -25,7 +25,7 @@ yes | sudo apt-get install git upstart libav-tools omxplayer nodejs libusb-1.0-0
 
 # npm install modules
 echo "** Install node modules **"
-npm install
+npm install --production
 
 # load git modules
 echo "** Initializing submodules **"
