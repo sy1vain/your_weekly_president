@@ -20,11 +20,17 @@ const defaults = {
 
 let possiblePaths = [
   path.join(__dirname, '..', '..', '..', 'your_weekly_president.json'),
+  path.join(__dirname, '..', '..', '..', 'ywp.json'),
   path.join(__dirname, '..', '..', '..', 'your_weekly_president', 'settings.json'),
-  path.join(os.homedir(), 'your_weekly_president', 'settings.json'),
+  path.join(__dirname, '..', '..', '..', 'ywp', 'settings.json'),
   path.join(os.homedir(), 'your_weekly_president.json'),
+  path.join(os.homedir(), 'ywp.json'),
+  path.join(os.homedir(), 'your_weekly_president', 'settings.json'),
+  path.join(os.homedir(), 'ywp', 'settings.json'),
+  path.join(os.homedir(), 'Documents', 'your_weekly_president.json'),
+  path.join(os.homedir(), 'Documents', 'ywp.json'),
   path.join(os.homedir(), 'Documents', 'your_weekly_president', 'settings.json'),
-  path.join(os.homedir(), 'Documents', 'your_weekly_president.json')
+  path.join(os.homedir(), 'Documents', 'ywp', 'settings.json')
 ];
 
 let loaded = {};

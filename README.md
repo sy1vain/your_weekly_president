@@ -3,8 +3,15 @@
 ## Install instructions
 
 * Install Raspbian Jessie Lite
-* Set language to prevent compilation warnings & errors `sudo sh -c "echo 'LC_ALL=C.UTF-8' >> /etc/default/locale"`
-* Install dependencies
-  * `curl -sL https://deb.nodesource.com/setup_6.x | sudo bash -`
-  * `yes | sudo apt-get upgrade`
-  * `yes | sudo apt-get install git upstart libav-tools omxplayer nodejs libusb-1.0-0.dev xinit libgtk2.0-0 libxss1 libgconf-2-4 libnss3`
+* Download repository and run install scriot
+* Copy files using sftp program
+
+## Files needes
+
+Next to the project directory we need the following files:
+
+* `ywp.json`
+* `ywp.mp4`
+* `markers.txt`
+
+There are several locations where these files can be placed. On raspberry pi place them in the base folder `/home/pi`.
