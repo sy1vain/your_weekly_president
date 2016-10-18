@@ -42,7 +42,7 @@ echo "** Installing openFrameworks dependencies **"
 yes | sudo ./libs/openFrameworks/scripts/linux/debian/install_dependencies.sh
 
 echo "** Building FramePlayer **"
-make
+make Release
 
 cd ..
 
