@@ -22,10 +22,11 @@ bool FrameTexture::upload(bool forceLoad){
 
   if(auto frameSurface = this->frameSurface.lock()){
     if(!frameSurface->isLoaded() && !forceLoad) return false;
-    frameSurface->load();
-    texture = TextureRef(new ofTexture());
-    texture->allocate(frameSurface->getSurface()->getPixels());
-    return true;
+    if(frameSurface->load()){
+      texture = TextureRef(new ofTexture());
+      texture->allocate(frameSurface->getSurface()->getPixels());
+      return true;
+    }
   }
 
   return false;
