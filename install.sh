@@ -43,17 +43,12 @@ else
   git submodule update --init
 fi
 
-# moving into FramePlayer directory
-cd FramePlayer
-
 # openframeworks install
 echo "** Installing openFrameworks dependencies **"
-yes | sudo ./libs/openFrameworks/scripts/linux/debian/install_dependencies.sh
+yes | sudo ./FramePlayer/libs/openFrameworks/scripts/linux/debian/install_dependencies.sh
 
 echo "** Building FramePlayer **"
-make Release
-
-cd ..
+make Release -C ./FramePlayer
 
 echo "** Setting up upstart **"
 sudo cp ./upstart/ywp.conf /etc/init/
