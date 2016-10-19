@@ -3,6 +3,7 @@
 ## Install instructions
 
 * Install Raspbian Jessie Lite (27-05-2016 version)
+* Install GIT `sudo apt-get update && sudo apt-get install git`
 * Download repository `git clone https://github.com/sy1vain/your_weekly_president.git` and run install script `[path to project]/install.sh fast` The `fast` option is option is for raspberry pi
 * Copy files using sftp program
 
