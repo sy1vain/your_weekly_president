@@ -33,7 +33,7 @@ class VideoPlayer {
       // console.log(`time: ${this.player.time}`);
       let time = this.player.time;
       let duration = this.player.duration;
-      if(duration>0 && time>=(duration-0.5) && !Settings.omx.loop){
+      if(duration>0 && time>=(duration-Settings.player.loop_margin) && !Settings.omx.loop){
         console.log(`resetting player due to ${time} (time) > ${duration} (duration)`);
         return this.player.play();
       }

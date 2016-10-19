@@ -9,15 +9,18 @@ class Player extends EventEmitter {
 
   constructor(filepath){
     super();
-    this._stopOnSeek = true;
-    this._startDelay = 1000;
+
     this._playing = false;
     this._startTime = 0;
-    this._ignoreStatusUpdates = 0;
     this._duration = -1;
     this._seekLockTime = 0;
     this._playerOpen = false;
-    this._lockSeek = 1000;
+    this._playerStopping = false;
+
+    this._startDelay = 1000 * (Settings.player.start_delay || 1);
+    this._stopOnSeek = (Settings.player.stop_on_seek!==false) && true;
+    this._lockSeek = 1000 * (Settings.player.lock_seek || 1);
+    this._syncTime = (Settings.player.sync_time!==false) && true;
 
     this.player = new OMXPlayer();
     this.player.on('error', (err)=>{
@@ -34,10 +37,11 @@ class Player extends EventEmitter {
   get time(){
     if(this._startTime==0) return 0;
 
-    if(this._playerOpen && this.canSeek){
+    if(this._syncTime && this._playerOpen && !this._playerStopping && this.canSeek){
       this.player.getPosition((err, position)=>{
         if(err) return;
-        if(this.time>this.duration) return;
+        if(position>this.duration) return;
+        if(this._playerStopping) return;
         this.time = position;
       });
     }
@@ -109,11 +113,15 @@ class Player extends EventEmitter {
   _onPlayerClose(emit=false){
     console.log('player close', emit);
     this._duration = -1;
+    this._playerStopping = false;
     if(emit) this.emit('close');
   }
 
   _stopPlayer(cb){
     if(!this._playerOpen) return;
+    if(this._playerStopping) return;
+
+    this._playerStopping = true;
 
     //remove all close listeners and re-attach
     //but prevent it from being emitted

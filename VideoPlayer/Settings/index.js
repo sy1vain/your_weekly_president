@@ -15,7 +15,14 @@ const defaults = {
     lock: 150
   },
   preload_surfaces: 50,
-  preload_textures: 10
+  preload_textures: 10,
+  player: {
+    loop_margin: 0.5,
+    lock_seek: 0.5,
+    start_delay: 1,
+    stop_on_seek: true,
+    sync_time: true
+  }
 }
 
 let possiblePaths = [
