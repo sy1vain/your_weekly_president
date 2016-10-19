@@ -33,6 +33,14 @@ class Player extends EventEmitter {
 
   get time(){
     if(this._startTime==0) return 0;
+
+    if(this.canSeek){
+      this.player.getPosition((err, position)=>{
+        if(err) return;
+        this.time = positon;
+      });
+    }
+
     return (Date.now() - this._startTime)/1000;
   }
 
@@ -86,7 +94,7 @@ class Player extends EventEmitter {
   }
 
   get canSeek(){
-    return Date.now()>this._seekLockTime;
+    return this._playerOpen && Date.now()>this._seekLockTime;
   }
 
   set canSeek(b){
@@ -115,6 +123,7 @@ class Player extends EventEmitter {
 
     this.player.quit((err)=>{
       this._playerOpen = false;
+      this.canSeek = false;
       return cb && cb();
     });
   }
@@ -141,6 +150,7 @@ class Player extends EventEmitter {
         this._onPlayerClose(true);
       });
       this.player.open(this._filepath, omxOptions);
+      this.canSeek = true;
 
       console.log('starting player!');
     }, this._startDelay);
