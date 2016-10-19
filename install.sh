@@ -5,8 +5,6 @@ project_dir=$(pwd)
 
 # get current dir name and setup paths
 dir_name=$(basename "$project_dir")
-node=$(which node)
-frameplayer="$project_dir/FramePlayer/bin/FramePlayer"
 
 # set lang setting
 sudo sh -c "echo 'LC_ALL=C.UTF-8' >> /etc/default/locale"
@@ -53,6 +51,9 @@ make Release -C ./FramePlayer
 echo "** Setting up upstart **"
 sudo cp ./upstart/ywp.conf /etc/init/
 sudo cp ./upstart/ywp_frameplayer.conf /etc/init/
+
+node=$(which node)
+frameplayer="$project_dir/FramePlayer/bin/FramePlayer"
 
 sudo sed -i -e "s|~node|$node|" -e "s|~app|$project_dir|" /etc/init/ywp.conf
 sudo sed -i "s|~app|$frameplayer|" /etc/init/ywp_frameplayer.conf
