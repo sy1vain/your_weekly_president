@@ -46,7 +46,8 @@ echo "** Installing openFrameworks dependencies **"
 yes | sudo ./FramePlayer/libs/openFrameworks/scripts/linux/debian/install_dependencies.sh
 
 echo "** Building FramePlayer **"
-make Release -C ./FramePlayer
+make Release -j4 -C ./FramePlayer/libs/openFrameworks/libs/openFrameworksCompiled/project/
+make Release -j4 -C ./FramePlayer
 
 echo "** Setting up upstart **"
 sudo cp ./upstart/ywp.conf /etc/init/
