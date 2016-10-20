@@ -19,10 +19,10 @@ echo "** Adding node modules **"
 curl -sL https://deb.nodesource.com/setup_6.x | sudo bash -
 # upgrade all
 echo "** Updating modules **"
-yes | sudo apt-get upgrade
+sudo apt-get -y upgrade
 # install project dependencies
 echo "** Install project dependencies **"
-yes | sudo apt-get install git upstart libav-tools omxplayer nodejs libusb-1.0-0.dev
+sudo apt-get -y install git upstart libav-tools omxplayer nodejs libusb-1.0-0.dev
 
 # npm install modules
 echo "** Install node modules **"
