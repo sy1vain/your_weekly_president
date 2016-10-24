@@ -13,6 +13,10 @@ export LC_ALL=C.UTF-8
 
 # set gpu memory
 sudo sh -c "echo 'gpu_mem=256' >> /boot/config.txt"
+# setup correct HDMI settings (1080p)
+sudo sh -c "echo 'hdmi_force_hotplug=1' >> /boot/config.txt"
+sudo sh -c "echo 'hdmi_group=1' >> /boot/config.txt"
+sudo sh -c "echo 'hdmi_mode=16' >> /boot/config.txt"
 
 # add the node repos
 echo "** Adding node modules **"
