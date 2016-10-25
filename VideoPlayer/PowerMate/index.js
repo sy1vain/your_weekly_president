@@ -78,7 +78,7 @@ class PowerMate extends EventEmitter {
 
     try{
       this.powermate = new (require('node-powermate'))();
-      this.powermate.setBrightness(0);
+      // this.powermate.setBrightness(0);
       this.powermate.on('wheelTurn', (wheelDelta)=>{
         this.handleTurn(wheelDelta);
       });
