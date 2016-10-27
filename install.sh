@@ -18,6 +18,7 @@ sudo sh -c "echo 'hdmi_force_hotplug=1' >> /boot/config.txt"
 sudo sh -c "echo 'hdmi_group=1' >> /boot/config.txt"
 sudo sh -c "echo 'hdmi_mode=4' >> /boot/config.txt"
 sudo sh -c "echo 'disable_overscan=1' >> /boot/config.txt"
+sudo sh -c "echo 'hdmi_ignore_edid=0xa5000080' >> /boot/config.txt"
 
 # add the node repos
 echo "** Adding node modules **"
